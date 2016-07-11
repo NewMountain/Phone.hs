@@ -25,7 +25,8 @@ btn9  = Buttons '9' "wxyz9"
 btn10 = Buttons '0' "+ _0"
 btn11 = Buttons '#' ".,"
 
-myPhone = Phone [ btn2
+myPhone = Phone [ btn1
+                , btn2
                 , btn3
                 , btn4
                 , btn5
