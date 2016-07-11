@@ -1,5 +1,5 @@
 # Phone.hs
-Phone to 90s telephone button press converter in Haskell. Get out your RAZRs emo 90s kids.
+Phone to 90s telephone button press converter in Haskell. Get out your RAZRs kids.
 
 This was one of the more interesting Challenges from the excellent Haskell Programming from first Principles by Christopher Allen and Julie Moronuki.
 
