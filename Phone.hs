@@ -66,9 +66,11 @@ type Presses = Int
 
 type ButtonAction = (Digit, Presses)
 
+
 -- Helper function to take the value out of the maybe
 maybePlucker :: Maybe a -> a
 maybePlucker (Just a) = a
+
 
 -- Helper function to get the index of a char out of a list of char
 -- and +1 it for human consumption
@@ -82,15 +84,12 @@ getCharIndex s ls =
 -- Special handling as capitalization requires another ButtonAction
 buttonActionMaker :: Buttons -> Char -> [ButtonAction]
 buttonActionMaker btn s
-  | elem s $ ['a'..'z'] ++ ['0'..'9'] ++  "+ _.," =
-    [ mkBtn btn s ]
-  | s `elem` ['A'..'Z'] =
-    [ ('*', 1)
-    , mkBtn btn ( toLower s )
-    ]
+  | s `elem` ['a'..'z'] ++ ['0'..'9'] ++  "+ _.," = [ mkBtn btn s ]
+  | s `elem` ['A'..'Z'] = [ ('*', 1), mkBtn btn ( toLower s )]
   where
     mkBtn b st =
       (key b, getCharIndex st (options b) )
+
 
 -- function to test if the char occurs in that buttons options
 keypadSeeker :: Char -> Buttons -> [ButtonAction]
@@ -98,6 +97,7 @@ keypadSeeker s btn =
   if elem (toLower s) $ options btn 
     then buttonActionMaker btn s
     else [ ('x', 0) ]
+
 
 -- map the char over all buttons and flatten and filter for success
 reverseTaps :: Phone -> Char -> [ButtonAction]
@@ -108,6 +108,7 @@ reverseTaps (Phone btnList) s =
 convoBreakDowner :: Phone -> [String] -> [[[ButtonAction]]]
 convoBreakDowner phone =
   map (map (reverseTaps phone))
+
 
 convo :: [String]
 convo =
