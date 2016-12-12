@@ -5,7 +5,7 @@ import Data.Char
 
 data Buttons =
   Buttons { key :: Char
-         , options :: [Char]
+         , options :: String
          }
   deriving (Eq, Ord, Show)
 
@@ -52,7 +52,7 @@ maybePlucker (Just a) = a
 -- and +1 it for human consumption
 getCharIndex :: Char -> String -> Int
 getCharIndex s ls =
-  ( (+1) $ maybePlucker $ findIndex (\x -> x == s) $ ls)
+  (+1) $ maybePlucker $ findIndex (== s) ls
 
 
 -- translate a charaction into its cell phone button clicks
@@ -62,20 +62,20 @@ buttonActionMaker :: Buttons -> Char -> [ButtonAction]
 buttonActionMaker btn s
   | elem s $ ['a'..'z'] ++ ['0'..'9'] ++  "+ _.," =
     [ mkBtn btn s ]
-  | elem s ['A'..'Z'] =
+  | s `elem` ['A'..'Z'] =
     [ ('*', 1)
     , mkBtn btn ( toLower s )
     ]
   where
     mkBtn b st =
-      ( (key b), ( getCharIndex st (options b) ) )
+      (key b, getCharIndex st (options b) )
 
 -- function to test if the char occurs in that buttons options
 keypadSeeker :: Char -> Buttons -> [ButtonAction]
 keypadSeeker s btn =
-  case (elem (toLower s) $ options btn) of
-    True -> buttonActionMaker btn s
-    False -> [ ('x', 0) ]
+  if elem (toLower s) $ options btn 
+    then buttonActionMaker btn s
+    else [ ('x', 0) ]
 
 -- map the char over all buttons and flatten and filter for success
 reverseTaps :: Phone -> Char -> [ButtonAction]
