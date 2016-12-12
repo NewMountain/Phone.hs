@@ -67,6 +67,8 @@ type Presses = Int
 type ButtonAction = (Digit, Presses)
 
 
+
+
 -- Helper function to take the value out of the maybe
 maybePlucker :: Maybe a -> a
 maybePlucker (Just a) = a
