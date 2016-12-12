@@ -13,18 +13,40 @@ data Phone =
   Phone [Buttons]
   deriving (Eq, Ord, Show)
 
+btn1  :: Buttons
 btn1  = Buttons '1' "1"
+
+btn2  :: Buttons
 btn2  = Buttons '2' "abc2"
+
+btn3  :: Buttons
 btn3  = Buttons '3' "def3"
+
+btn4  :: Buttons
 btn4  = Buttons '4' "ghi4"
+
+btn5  :: Buttons
 btn5  = Buttons '5' "jkl5"
+
+btn6  :: Buttons
 btn6  = Buttons '6' "mno6"
+
+btn7  :: Buttons
 btn7  = Buttons '7' "pqrs7"
+
+btn8  :: Buttons
 btn8  = Buttons '8' "tuv8"
+
+btn9  :: Buttons
 btn9  = Buttons '9' "wxyz9"
+
+btn10  :: Buttons
 btn10 = Buttons '0' "+ _0"
+
+btn11 :: Buttons
 btn11 = Buttons '#' ".,"
 
+myPhone :: Phone
 myPhone = Phone [ btn1
                 , btn2
                 , btn3
@@ -52,7 +74,7 @@ maybePlucker (Just a) = a
 -- and +1 it for human consumption
 getCharIndex :: Char -> String -> Int
 getCharIndex s ls =
-  (+1) $ maybePlucker $ findIndex (== s) ls
+  (+1) $ maybePlucker $ elemIndex s ls
 
 
 -- translate a charaction into its cell phone button clicks
@@ -80,12 +102,12 @@ keypadSeeker s btn =
 -- map the char over all buttons and flatten and filter for success
 reverseTaps :: Phone -> Char -> [ButtonAction]
 reverseTaps (Phone btnList) s =
-  filter (\(x, _) -> x /= 'x') $ concat $ map (keypadSeeker s) btnList
+  filter (\(x, _) -> x /= 'x') $ concatMap (keypadSeeker s) btnList
 
 
 convoBreakDowner :: Phone -> [String] -> [[[ButtonAction]]]
-convoBreakDowner phone noise =
-  map (map (reverseTaps phone)) noise
+convoBreakDowner phone =
+  map (map (reverseTaps phone))
 
 convo :: [String]
 convo =
